@@ -1,21 +1,19 @@
-
-
-const http=require('http');
 const express=require('express');
+const bodyParser=require('body-parser');
 const app=express();
-app.use((req, res, next)=>{
-    console.log("first");
-    next();
+
+app.use(bodyParser.urlencoded({extended:false}));
+
+app.get('/add-product',(req, res, next)=>{
+    console.log("inside add product page");
+    res.send('<html><h1>ADD PRODUCT</h1><form action="/store-product" method="POST">Title <input type="text" name="title"/><input type="submit" value="submit"/></form></html>');    
     
-})
-app.use((req, res, next)=>{
-    console.log("second");
-    next();
-    
-})
-app.use(()=>{
-    console.log("third");
 })
 
-const server=http.createServer(app);
-server.listen(3000);
+app.post('/store-product',(req, res, next)=>{
+    console.log("inside store product page");
+    console.log(req.body)
+    res.send('<h1>Product Submitted</h1>');       
+})
+
+app.listen(3000);
